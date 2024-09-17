@@ -5,13 +5,13 @@ import {
     NotFoundException,
   } from '@nestjs/common';
   import { InjectRepository } from '@nestjs/typeorm';
-  import { CreateCaseDTO } from 'src/dto/Case/create-Case.dto';
-  import { Case } from 'src/entity/Case.entity';
+  import { CreateCaseDTO } from 'src/dto/case/create-case.dto';
+  import { Case } from 'src/entity/case.entity';
   import { FindOptionsWhere, Like, Repository } from 'typeorm';
   import { PaginationCaseQueryDTO } from 'src/dto/case/paginated-query.dto';
-  import { PaginatedCaseDTO } from '../../dto/Case/paginated-Case.dto';
+  import { PaginatedCaseDTO } from 'src/dto/case/paginated-case.dto';
   import { StatusChangeDTO } from 'src/dto/common/status-change.dto';
-  import { UpdateCaseDTO } from 'src/dto/Case/update-Case.dto';
+  import { UpdateCaseDTO } from 'src/dto/case/update-case.dto';
   
   @Injectable()
   export class CaseService {

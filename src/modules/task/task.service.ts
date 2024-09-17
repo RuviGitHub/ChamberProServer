@@ -7,7 +7,7 @@ import {
   import { InjectRepository } from '@nestjs/typeorm';
   import { FindOptionsWhere, Like, Repository } from 'typeorm';
   import { StatusChangeDTO } from 'src/dto/common/status-change.dto';
-  import { UpdateTaskDTO } from 'src/dto/Task/update-Task.dto';
+  import { UpdateTaskDTO } from 'src/dto/task/update-task.dto';
 import { Task } from 'src/entity/task.entity';
 import { CreateTaskDTO } from 'src/dto/task/create-task.dto';
 import { PaginationTaskQueryDTO } from 'src/dto/task/paginated-query.dto';

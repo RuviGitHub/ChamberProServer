@@ -5,7 +5,7 @@ import {
     NotFoundException,
   } from '@nestjs/common';
   import { InjectRepository } from '@nestjs/typeorm';
-  import { Appointment } from 'src/entity/Appointment.entity';
+  import { Appointment } from 'src/entity/appointment.entity';
   import { FindOptionsWhere, Like, Repository } from 'typeorm';
   import { StatusChangeDTO } from 'src/dto/common/status-change.dto';
 import { CreateAppointmentDTO } from 'src/dto/appointment/create-appointment.dto';
