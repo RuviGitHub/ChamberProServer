@@ -35,7 +35,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
       port: 3306,
       username: 'admin',
       password: 'chamber1234',
-      database: 'chamber-pro-db',
+      database: 'chamber_pro_db',
       entities: [
         User,
         Chamber,
