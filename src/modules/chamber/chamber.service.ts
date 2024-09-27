@@ -8,12 +8,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Chamber } from 'src/entity/chamber.entity';
 import { RegisterChamberDTO } from 'src/dto/chamber/register-chamber.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class ChamberService {
   constructor(
     @InjectRepository(Chamber)
     private readonly repository: Repository<Chamber>,
+    private readonly userService: UserService,
   ) {}
 
   /**
@@ -43,7 +45,14 @@ export class ChamberService {
         is_active: true,
       });
 
-      return await this.repository.save(chamber);
+      const createdChamber = await this.repository.save(chamber);
+
+      // update user entity with chamber_id
+      await this.userService.updateByFilters(
+        { user_id: dto.user_id },
+        { chamber_id: createdChamber.chamber_id },
+      );
+      return createdChamber;
     } catch (error) {
       console.error('Error registering chamber:', error.message);
       if (error instanceof BadRequestException) {

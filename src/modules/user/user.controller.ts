@@ -35,8 +35,7 @@ export class UserController {
     return this.response.sendSuccessResponse(res, 'Login successful.', { token });
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(1, 2)
+  @UseGuards(JwtAuthGuard)
   @Get('auth')
   async auth(@Query('user_id') userId: number, @Res() res) {
     const user = await this.service.auth(userId);

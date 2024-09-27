@@ -233,4 +233,13 @@ export class UserService {
       );
     }
   }
+
+  async updateByFilters(filters: Partial<User>, inputs: Partial<User>) {
+    try {
+      return await this.repository.update(filters, inputs);
+    } catch (error) {
+      console.error('Error resetting token expiration:', error);
+      throw new InternalServerErrorException('Error updating user.');
+    }
+  }
 }
