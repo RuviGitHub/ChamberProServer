@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, ParseIntPipe, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { ResponseService } from 'src/utils/response.service';
 import { CreateClientDTO } from 'src/dto/client/create-client.dto';
@@ -6,6 +6,7 @@ import { PaginatedClientDTO } from '../../dto/client/paginated-client.dto';
 import { PaginationQueryDTO } from '../../dto/client/paginated-query.dto';
 import { StatusChangeDTO } from 'src/dto/common/status-change.dto';
 import { UpdateClientDTO } from 'src/dto/client/update-client.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 
 @Controller('client')
@@ -28,10 +29,18 @@ export class ClientController {
     return this.response.sendSuccessResponse(res, 'Clients retrieved.', client);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get('all-paginated')
-  async getAllClients(@Query() query: PaginationQueryDTO, @Res() res) {
-    const result: PaginatedClientDTO =
-      await this.service.getClientsPaginated(query);
+  async getAllClients(
+    @Query() query: PaginationQueryDTO,
+    @Res() res: any,
+    @Req() req: any,
+  ) {
+    const { chamber_id } = req.user;
+    const result: PaginatedClientDTO = await this.service.getClientsPaginated(
+      query,
+      chamber_id,
+    );
     return this.response.sendSuccessResponse(res, 'Clients retrieved.', result);
   }
 

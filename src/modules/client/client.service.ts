@@ -59,6 +59,7 @@ export class ClientService {
    */
   async getClientsPaginated(
     paginationQuery: PaginationQueryDTO,
+    chamber_id: number,
   ): Promise<PaginatedClientDTO> {
     try {
       const {
@@ -75,6 +76,7 @@ export class ClientService {
 
       // Build where conditions for querying clients
       const whereConditions: FindOptionsWhere<Client> = {
+        chamber_id,
         ...(search && { client_name: Like(`%${search}%`) }),
         ...(status && { status }),
         ...(district && { client_district_id: Number(district) }),

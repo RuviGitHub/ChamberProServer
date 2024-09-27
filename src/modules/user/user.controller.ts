@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Query, Res, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ResponseService } from 'src/utils/response.service';
 import { RegisterUserDTO } from 'src/dto/user/register-user.dto';
@@ -37,8 +37,9 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get('auth')
-  async auth(@Query('user_id') userId: number, @Res() res) {
-    const user = await this.service.auth(userId);
+  async auth(@Res() res: any, @Req() req: any) {
+    const { user_id } = req.user;
+    const user = await this.service.auth(user_id);
     return this.response.sendSuccessResponse(res, 'Auth successful.', user);
   }
 
