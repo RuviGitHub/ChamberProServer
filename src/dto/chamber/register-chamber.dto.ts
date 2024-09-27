@@ -18,4 +18,8 @@ export class RegisterChamberDTO {
   @IsInt()
   package_id?: number;
 
+  @IsNotEmpty()
+  @IsInt()
+  user_id?: number;
+
 }

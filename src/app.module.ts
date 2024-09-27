@@ -31,9 +31,10 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'chamber-pro-db.c7i4yoos46dy.ap-south-1.rds.amazonaws.com',
+      // host: 'chamber-pro-db.c7i4yoos46dy.ap-south-1.rds.amazonaws.com',
+      host: 'localhost',
       port: 3306,
-      username: 'admin',
+      username: 'root',
       password: 'chamber1234',
       database: 'chamber_pro_db',
       entities: [

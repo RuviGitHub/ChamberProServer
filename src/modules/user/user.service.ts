@@ -29,7 +29,6 @@ export class UserService {
   async auth(user_id: number) {
     try {
       const user = await this.findById(user_id);
-      console.log(user)
       if (!user) {
         throw new BadRequestException('User not found.');
       }
@@ -232,6 +231,15 @@ export class UserService {
       throw new InternalServerErrorException(
         'Error resetting token expiration.',
       );
+    }
+  }
+
+  async updateByFilters(filters: Partial<User>, inputs: Partial<User>) {
+    try {
+      return await this.repository.update(filters, inputs);
+    } catch (error) {
+      console.error('Error resetting token expiration:', error);
+      throw new InternalServerErrorException('Error updating user.');
     }
   }
 }

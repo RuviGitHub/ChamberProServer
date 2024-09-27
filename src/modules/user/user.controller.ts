@@ -7,6 +7,8 @@ import { SetupPasswordDTO } from 'src/dto/user/setup-password.dto';
 import { JwtService } from 'src/auth/jwt.service';
 import { LoginDTO } from 'src/dto/user/login.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('user')
 export class UserController {
