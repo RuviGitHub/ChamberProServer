@@ -7,6 +7,8 @@ import { SetupPasswordDTO } from 'src/dto/user/setup-password.dto';
 import { JwtService } from 'src/auth/jwt.service';
 import { LoginDTO } from 'src/dto/user/login.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
 
 @Controller('user')
 export class UserController {
@@ -33,7 +35,8 @@ export class UserController {
     return this.response.sendSuccessResponse(res, 'Login successful.', { token });
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(1, 2)
   @Get('auth')
   async auth(@Query('user_id') userId: number, @Res() res) {
     const user = await this.service.auth(userId);

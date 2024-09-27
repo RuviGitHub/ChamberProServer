@@ -29,7 +29,6 @@ export class UserService {
   async auth(user_id: number) {
     try {
       const user = await this.findById(user_id);
-      console.log(user)
       if (!user) {
         throw new BadRequestException('User not found.');
       }
