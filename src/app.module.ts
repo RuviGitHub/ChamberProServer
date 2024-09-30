@@ -25,6 +25,7 @@ import { Transaction } from './entity/transaction.entity';
 import { JwtModule } from './auth/jwt.module';
 import { Appointment } from './entity/appointment.entity';
 import { AppointmentModule } from './modules/appointment/appointment.module';
+import { SmsModule } from './modules/sms/sms.module';
 
 @Module({
   imports: [
@@ -59,6 +60,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module';
     TaskModule,
     TransactionModule,
     AppointmentModule,
+    SmsModule,
   ],
   controllers: [AppController],
   providers: [ResponseService, SeederService, OtpService, MailService],
