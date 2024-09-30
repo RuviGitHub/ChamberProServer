@@ -29,6 +29,13 @@ export class ClientController {
     return this.response.sendSuccessResponse(res, 'Clients retrieved.', client);
   }
 
+  @Get('verify_nic')
+  async verifyNIC(@Query('chamber_id', ParseIntPipe) chamber_id: number,@Query('nic') nic: string, @Res() res,) {
+    const client = await this.service.verifyNIC(chamber_id, nic);
+    console.log(client)
+    return this.response.sendSuccessResponse(res, 'Clients verified.', client);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get('all-paginated')
   async getAllClients(

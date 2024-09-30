@@ -6,6 +6,7 @@ import { UpdateCaseDTO } from 'src/dto/case/update-case.dto';
 import { PaginationCaseQueryDTO } from 'src/dto/case/paginated-query.dto';
 import { PaginatedCaseDTO } from 'src/dto/case/paginated-case.dto';
 import { CaseService } from './case.service';
+import { CreateCaseStep01DTO } from 'src/dto/case/create-case-step01.dto';
 
 
 
@@ -17,7 +18,7 @@ export class CaseController {
   ) {}
 
   @Post('create-case')
-  async registerCase(@Body() dto: CreateCaseDTO, @Res() res) {
+  async registerCase(@Body() dto: CreateCaseStep01DTO, @Res() res) {
     const Case = await this.service.registerCase(dto);
     return this.response.sendSuccessResponse(res, 'Case registered.', Case);
   }
@@ -35,6 +36,7 @@ export class CaseController {
       await this.service.getCasesPaginated(query);
     return this.response.sendSuccessResponse(res, 'Cases retrieved.', result);
   }
+
 
   @Post('status-change')
   async changeStatus(@Body() dto: StatusChangeDTO, @Res() res) {

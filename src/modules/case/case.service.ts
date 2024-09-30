@@ -12,6 +12,7 @@ import {
   import { PaginatedCaseDTO } from 'src/dto/case/paginated-case.dto';
   import { StatusChangeDTO } from 'src/dto/common/status-change.dto';
   import { UpdateCaseDTO } from 'src/dto/case/update-case.dto';
+import { CreateCaseStep01DTO } from 'src/dto/case/create-case-step01.dto';
   
   @Injectable()
   export class CaseService {
@@ -20,7 +21,7 @@ import {
       private readonly repository: Repository<Case>,
     ) {}
 
-    async registerCase(dto: CreateCaseDTO) {
+    async registerCase(dto: CreateCaseStep01DTO) {
       try {
         const existingEntity = await this.findByCaseNo(dto.case_no);
   

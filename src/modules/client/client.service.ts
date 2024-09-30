@@ -15,18 +15,13 @@ import { UpdateClientDTO } from 'src/dto/client/update-client.dto';
 
 @Injectable()
 export class ClientService {
+  private readonly nicRegex = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
+
   constructor(
     @InjectRepository(Client)
     private readonly repository: Repository<Client>,
   ) {}
 
-  /**
-   * Registers a new client.
-   * @param dto - The CreateClientDTO object containing client details.
-   * @returns The newly created client.
-   * @throws NotFoundException if a client with the same name already exists.
-   * @throws InternalServerErrorException on unexpected errors.
-   */
   async registerClient(dto: CreateClientDTO) {
     try {
       const existingEntity = await this.findByName(dto.client_name);
@@ -51,12 +46,6 @@ export class ClientService {
     }
   }
 
-  /**
-   * Retrieves a paginated list of clients based on the provided query parameters.
-   * @param paginationQuery - The PaginationQueryDTO object containing pagination and filter options.
-   * @returns A paginated response containing the list of clients and total count.
-   * @throws InternalServerErrorException on unexpected errors.
-   */
   async getClientsPaginated(
     paginationQuery: PaginationQueryDTO,
     chamber_id: number,
@@ -103,6 +92,31 @@ export class ClientService {
       throw new InternalServerErrorException('Error retrieving clients.');
     }
   }
+
+  async verifyNIC(chamber_id: number, nic: string): Promise<Client | null> {
+    try {
+      console.log(chamber_id)
+      if (!this.nicRegex.test(nic)) {
+        throw new BadRequestException('Invalid NIC format.');
+      }
+
+      const client = await this.findByNIC_ChamberId(chamber_id, nic);
+
+      if (!client) {
+        throw new NotFoundException('Client not found.');
+      }
+      return client;
+    } catch (error) {
+      console.error('Error retrieving client by NIC and chamber_id:', error);
+      if (error instanceof NotFoundException) {
+        throw error;
+      }else if(error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new InternalServerErrorException('Error retrieving client.');
+    }
+  }
+  
 
   async viewClient(id: number): Promise<Client> {
     try {
@@ -186,5 +200,11 @@ export class ClientService {
 
   async findById(id: number): Promise<Client | null> {
     return await this.repository.findOne({ where: { client_id: id } });
+  }
+
+  async findByNIC_ChamberId(chamber_id: number, nic: string): Promise<Client | null> {
+    return await this.repository.findOne({
+      where: { chamber_id, client_nic: nic },
+    });
   }
 }
