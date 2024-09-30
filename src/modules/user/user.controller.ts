@@ -32,7 +32,7 @@ export class UserController {
     // Store the token in the user model encrypted
     await this.service.storeToken(user.user_id, token);
 
-    return this.response.sendSuccessResponse(res, 'Login successful.', { token });
+    return this.response.sendSuccessResponse(res, 'Login successful.', { token:token, user_id: user.user_id });
   }
 
   @UseGuards(JwtAuthGuard)
