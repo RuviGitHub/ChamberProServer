@@ -83,9 +83,6 @@ export class Case {
   @Column({ type: 'text', nullable: true })
   case_document_urls: string;
 
-  @ManyToOne(() => Chamber, (chamber) => chamber.cases)
-  @JoinColumn({ name: 'chamber_id' })
-  @Column({ type: 'int' })
   chamber_id: number;
 
   @Column({ type: 'boolean', default: true })
