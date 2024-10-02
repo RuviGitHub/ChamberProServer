@@ -54,6 +54,7 @@ import { CreateCaseStep01DTO } from 'src/dto/case/create-case-step01.dto';
           search,
           status,
           case_type,
+          chamber_id
         } = paginationQuery;
   
         // Determine the sort direction
@@ -61,6 +62,7 @@ import { CreateCaseStep01DTO } from 'src/dto/case/create-case-step01.dto';
   
         // Build where conditions for querying Cases
         const whereConditions: FindOptionsWhere<Case> = {
+          chamber_id,
           ...(search && { case_no: Like(`%${search}%`) }),
           ...(status && { status }),
           ...(case_type && { case_type: Number(case_type) }),

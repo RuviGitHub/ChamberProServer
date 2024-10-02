@@ -40,6 +40,9 @@ import {
   
     @IsString()
     court_no: string;
+
+    @IsInt()
+    chamber_id: number;
   
   }
   

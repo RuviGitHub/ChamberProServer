@@ -27,4 +27,7 @@ export class PaginationCaseQueryDTO {
   @IsOptional()
   @IsInt()
   case_type?: number;
+
+  @IsInt()
+  chamber_id?: number;
 }

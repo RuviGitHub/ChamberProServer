@@ -12,6 +12,7 @@ import { Client } from './client.entity';
 import { Police } from './police.entity';
 import { Appointment } from './appointment.entity';
 import { Transaction } from './transaction.entity';
+import { Chamber } from './chamber.entity';
 
 @Entity('cse')
 export class Case {
@@ -81,6 +82,11 @@ export class Case {
 
   @Column({ type: 'text', nullable: true })
   case_document_urls: string;
+
+  @ManyToOne(() => Chamber, (chamber) => chamber.cases)
+  @JoinColumn({ name: 'chamber_id' })
+  @Column({ type: 'int' })
+  chamber_id: number;
 
   @Column({ type: 'boolean', default: true })
   is_reminder_on: boolean;

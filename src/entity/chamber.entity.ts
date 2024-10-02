@@ -13,6 +13,7 @@ import {
   import { Task } from './task.entity';
   import { Package } from './package.entity';
   import { Transaction } from './transaction.entity';
+import { Case } from './case.entity';
   
   @Entity('chamber')
   export class Chamber {
@@ -49,6 +50,9 @@ import {
   
     @OneToMany(() => Task, (task) => task.chamber_id)
     tasks: Task[];
+
+    @OneToMany(() => Case, (cse) => cse.chamber_id)
+    cases: Case[];
   
     @CreateDateColumn({ type: 'timestamp' }) // Automatically sets the current timestamp on insert
     created_at: Date;
