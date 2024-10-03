@@ -12,8 +12,7 @@ export class ChamberController{
     private readonly service: ChamberService,
     private readonly response: ResponseService,
   ) {}
-
-  @UseGuards(JwtAuthGuard)
+  //no auth
   @Post('/register-chamber')
   async registerChamber(@Body() dto: RegisterChamberDTO, @Res() res) {
     const chamber = await this.service.registerChamber(dto);
