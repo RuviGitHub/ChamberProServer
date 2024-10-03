@@ -39,11 +39,11 @@ import { ComplexController } from './modules/complex/complex.controller';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'chamber-pro-db.c7i4yoos46dy.ap-south-1.rds.amazonaws.com',
       port: 3306,
-      username: 'root',
-      password: '12345678',
-      database: 'chamber_pro',
+      username: 'admin',
+      password: 'chamber1234',
+      database: 'chamber_pro_db',
       entities: [
         User,
         Chamber,
