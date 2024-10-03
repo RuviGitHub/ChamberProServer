@@ -23,8 +23,8 @@ export class Chamber {
   @Column({ type: 'varchar', length: 60 })
   chamber_name: string;
 
-  @Column({ type: 'varchar', length: 60 })
-  complex_name: string;
+  @Column({ type: 'int'})
+  complex_id: number;
 
   @ManyToOne(() => Package)
   @JoinColumn({ name: 'package_id' })

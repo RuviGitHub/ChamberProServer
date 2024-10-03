@@ -4,23 +4,21 @@ import {
     Column,
     CreateDateColumn,
     UpdateDateColumn,
-    OneToMany,
   } from 'typeorm';
-import { Case } from './case.entity';
   
-  @Entity('police')
-  export class Police {
+  @Entity('complex')
+  export class Complex {
     @PrimaryGeneratedColumn('increment')
-    police_id: number;
+    complex_id: number;
   
     @Column('varchar')
-    police_name: string;
+    complex_name: string;
   
     @Column('varchar')
-    police_phone: string;
+    complex_phone: string;
   
     @Column('varchar')
-    police_city: string;
+    complex_city: string;
   
     @Column({ type: 'int', default: 1 })
     status: number; // 1: active, 2: de-active

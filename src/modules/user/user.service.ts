@@ -42,19 +42,10 @@ export class UserService {
     }
   }
 
-  /**
-   * Registers a new user and generates an OTP for verification.
-   * @param dto - The RegisterUserDTO object containing user details.
-   * @returns The newly created user with OTP details.
-   * @throws BadRequestException if the phone number or email already exists.
-   * @throws InternalServerErrorException on unexpected errors.
-   */
-  async registerUser(dto: RegisterUserDTO): Promise<User> {
+  async registerUser(dto: RegisterUserDTO): Promise<Partial<User>> { 
     try {
       // Check if the phone number or email already exists
-      const existingPhoneNumber = await this.findByPhoneNumber(
-        dto.phone_number,
-      );
+      const existingPhoneNumber = await this.findByPhoneNumber(dto.phone_number);
       const existingEmail = await this.findByEmail(dto.email);
 
       if (existingPhoneNumber) {
@@ -64,10 +55,15 @@ export class UserService {
         throw new BadRequestException('Email already exists.');
       }
 
+      // Hash the password before storing
+      const hashedPassword = await bcrypt.hash(dto.password, 10);
+
       // Generate OTP for verification
       const otp = await this.otpService.generateOtp();
+
       const user = this.repository.create({
         ...dto,
+        password: hashedPassword, // Store the hashed password
         latest_otp: otp,
         is_otp_verified: false,
         is_chamber_owner: true,
@@ -77,10 +73,12 @@ export class UserService {
         is_active: true,
       });
 
-      // Optionally send OTP email for verification
-      // await this.mailService.sendOtpEmail(dto.email, otp);
+      const savedUser = await this.repository.save(user);
 
-      return await this.repository.save(user);
+      // Remove the password from the saved user object before returning
+      const { password, ...result } = savedUser;
+
+      return result; // Return the user without the password
     } catch (error) {
       console.error('Error registering user:', error.message);
       if (error instanceof BadRequestException) {
@@ -90,61 +88,29 @@ export class UserService {
     }
   }
 
-  /**
-   * Verifies the OTP provided by the user.
-   * @param dto - The VerifyOtpDTO object containing phone number and OTP.
-   * @returns True if the OTP is valid, false otherwise.
-   * @throws NotFoundException if the user is not found.
-   * @throws InternalServerErrorException on unexpected errors.
-   */
-  async verifyOtp(dto: VerifyOtpDTO): Promise<boolean> {
-    try {
-      const user = await this.findByPhoneNumber(dto.phone_number);
+  // async setupPassword(dto: SetupPasswordDTO): Promise<User> {
+  //   try {
+  //     const existingEntity = await this.findById(dto.user_id);
 
-      if (!user) {
-        throw new NotFoundException('User not found.');
-      }
+  //     if (!existingEntity) {
+  //       throw new NotFoundException('User not found.');
+  //     }
 
-      return user.latest_otp === dto.otp;
-    } catch (error) {
-      console.error('Error verifying OTP:', error.message);
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Error verifying OTP.');
-    }
-  }
+  //     // Hash the new password before saving
+  //     const hashedPassword = await bcrypt.hash(dto.password, 10);
+  //     existingEntity.password = hashedPassword;
+  //     existingEntity.is_otp_verified = true;
+  //     existingEntity.updated_at = new Date(); // Update timestamp
 
-  /**
-   * Sets up or updates the password for a user.
-   * @param dto - The SetupPasswordDTO object containing user ID and new password.
-   * @returns The updated user entity with the new password.
-   * @throws NotFoundException if the user is not found.
-   * @throws InternalServerErrorException on unexpected errors.
-   */
-  async setupPassword(dto: SetupPasswordDTO): Promise<User> {
-    try {
-      const existingEntity = await this.findById(dto.user_id);
-
-      if (!existingEntity) {
-        throw new NotFoundException('User not found.');
-      }
-
-      // Hash the new password before saving
-      const hashedPassword = await bcrypt.hash(dto.password, 10);
-      existingEntity.password = hashedPassword;
-      existingEntity.is_otp_verified = true;
-      existingEntity.updated_at = new Date(); // Update timestamp
-
-      return await this.repository.save(existingEntity);
-    } catch (error) {
-      console.error('Error updating user password:', error.message);
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Error updating user password.');
-    }
-  }
+  //     return await this.repository.save(existingEntity);
+  //   } catch (error) {
+  //     console.error('Error updating user password:', error.message);
+  //     if (error instanceof NotFoundException) {
+  //       throw error;
+  //     }
+  //     throw new InternalServerErrorException('Error updating user password.');
+  //   }
+  // }
 
   async findById(id: number): Promise<User | null> {
     return await this.repository.findOne({ where: { user_id: id } });

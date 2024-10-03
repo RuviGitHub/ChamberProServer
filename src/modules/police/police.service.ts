@@ -16,6 +16,14 @@ import { Police } from 'src/entity/police.entity';
       private readonly repository: Repository<Police>,
     ) {}
   
+    async getAllPolices(): Promise<Police[]> {
+      try {
+        return await this.repository.find();
+      } catch (error) {
+        throw new InternalServerErrorException('Error retrieving polices.');
+      }
+    }
+    
     /* ------------------------------------------- Helper ------------------------------------------- */
     async findById(id: number): Promise<Police> {
       try {
@@ -34,12 +42,5 @@ import { Police } from 'src/entity/police.entity';
       }
     }
   
-    async getAllPolices(): Promise<Police[]> {
-      try {
-        return await this.repository.find();
-      } catch (error) {
-        throw new InternalServerErrorException('Error retrieving polices.');
-      }
-    }
   }
   

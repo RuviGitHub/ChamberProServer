@@ -26,4 +26,9 @@ export class RegisterUserDTO {
   @Transform(({ value }) => value.trim(), { toClassOnly: true })
   full_name?: string;
 
+  @IsNotEmpty()
+  @IsString()
+  @Length(8, 255)
+  password?: string;
+
 }

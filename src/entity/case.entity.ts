@@ -33,8 +33,6 @@ export class Case {
   @Column({ type: 'int' })
   client_id: number;
 
-  @ManyToOne(() => Police)
-  @JoinColumn({ name: 'police_id' })
   @Column({ type: 'int' })
   police_id: number;
 
@@ -83,6 +81,7 @@ export class Case {
   @Column({ type: 'text', nullable: true })
   case_document_urls: string;
 
+  @Column({ type: 'int'})
   chamber_id: number;
 
   @Column({ type: 'boolean', default: true })

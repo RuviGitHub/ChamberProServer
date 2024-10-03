@@ -11,11 +11,11 @@ export class PoliceController {
 
   @Get()
   async getAllPolice(@Res() res) {
-    const pkgs = await this.service.getAllPolices();
+    const polices = await this.service.getAllPolices();
     return this.responseService.sendSuccessResponse(
       res,
       'Police retrieved.',
-      pkgs,
+      polices,
     );
   }
 }

@@ -26,17 +26,24 @@ import { JwtModule } from './auth/jwt.module';
 import { Appointment } from './entity/appointment.entity';
 import { AppointmentModule } from './modules/appointment/appointment.module';
 import { SmsModule } from './modules/sms/sms.module';
+import { OtpModule } from './modules/otp/otp.module';
+import { Otp } from './entity/otp.entity';
+import { Complex } from './entity/complex.entity';
+import { ComplexService } from './modules/complex/complex.service';
+import { ComplexModule } from './modules/complex/complex.module';
+import { ComplexController } from './modules/complex/complex.controller';
+
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'chamber-pro-db.c7i4yoos46dy.ap-south-1.rds.amazonaws.com',
+      host: 'localhost',
       port: 3306,
-      username: 'admin',
-      password: 'chamber1234',
-      database: 'chamber_pro_db',
+      username: 'root',
+      password: '12345678',
+      database: 'chamber_pro',
       entities: [
         User,
         Chamber,
@@ -46,7 +53,9 @@ import { SmsModule } from './modules/sms/sms.module';
         Police,
         Task,
         Transaction,
-        Appointment
+        Appointment,
+        Otp,
+        Complex
       ],
       synchronize: true,
     }),
@@ -61,9 +70,11 @@ import { SmsModule } from './modules/sms/sms.module';
     TransactionModule,
     AppointmentModule,
     SmsModule,
+    OtpModule,
+    ComplexModule,
   ],
-  controllers: [AppController],
-  providers: [ResponseService, SeederService, OtpService, MailService],
+  controllers: [AppController, ComplexController],
+  providers: [ResponseService, SeederService, OtpService, MailService, ComplexService],
 })
 export class AppModule implements OnModuleInit {
   constructor(private readonly seederService: SeederService) {}

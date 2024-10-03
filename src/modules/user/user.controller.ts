@@ -49,18 +49,9 @@ export class UserController {
     return this.response.sendSuccessResponse(res, 'User registered.', user);
   }
 
-  @Post('verify-otp')
-  async verifyOtp(@Body() dto: VerifyOtpDTO, @Res() res) {
-    const flag = await this.service.verifyOtp(dto);
-    if (flag) {
-      return this.response.sendSuccessResponse(res, 'Otp Verified.');
-    }
-    return this.response.sendSuccessResponse(res, 'Invalid Otp.');
-  }
-
-  @Post('setup-password')
-  async setupPassword(@Body() dto: SetupPasswordDTO, @Res() res) {
-    const user = await this.service.setupPassword(dto);
-    return this.response.sendSuccessResponse(res, 'Password updated.', user);
-  }
+  // @Post('setup-password')
+  // async setupPassword(@Body() dto: SetupPasswordDTO, @Res() res) {
+  //   const user = await this.service.setupPassword(dto);
+  //   return this.response.sendSuccessResponse(res, 'Password updated.', user);
+  // }
 }

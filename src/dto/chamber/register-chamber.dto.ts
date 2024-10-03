@@ -9,10 +9,8 @@ export class RegisterChamberDTO {
   chamber_name: string;
 
   @IsNotEmpty()
-  @IsString()
-  @Length(1, 120)
-  @Transform(({ value }) => value.trim(), { toClassOnly: true })
-  complex_name?: string;
+  @IsInt()
+  complex_id?: number;
 
   @IsNotEmpty()
   @IsInt()
